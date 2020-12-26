@@ -2,18 +2,18 @@
 ```SQL
 with medal_cnt as(
   select
-    country,Event,
+    country,Sport,
     count(*) as medal_count
   from `dsmbootcamp.dogukan_nefis.summer_medals`
   where year >= 1980
-  group by Event,country
-  order by Event,count(*) DESC
+  group by Sport,country
+  order by Sport,count(*) DESC
   )
-  select country,Event,medal_count,Rank
+  select country,Sport,medal_count,Rank
   from(
-  select country,Event,medal_count,
-        ROW_NUMBER() OVER(PARTITION BY Event ORDER BY medal_count DESC) AS Row_number,
-        RANK() OVER(PARTITION BY Event ORDER BY medal_count DESC) AS Rank
+  select country,Sport,medal_count,
+        ROW_NUMBER() OVER(PARTITION BY Sport ORDER BY medal_count DESC) AS Row_number,
+        RANK() OVER(PARTITION BY Sport ORDER BY medal_count DESC) AS Rank
   from medal_cnt
   )
   where Rank in (1,3,5)
